@@ -13,7 +13,7 @@ export class AppComponent {
   public chats: Observable<any[]>;
 
   constructor(db: AngularFirestore) {
-    const FIRESTORE = db.firestore.settings({timestampsInSnapshots});
+    //const FIRESTORE = db.firestore.settings({timestampsInSnapshots: true});
     this.chats = db.collection('chats').valueChanges();
   }
 
