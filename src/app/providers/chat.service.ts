@@ -15,12 +15,16 @@ export class ChatService {
   constructor( private afs: AngularFirestore) { }
 
   cargarMensajes() {
-    this.itemsCollection = this.afs.collection<Mensaje>('chats');
+    // el segundo parametro de esta funcion va a ser el query a firebase (ref)
+    this.itemsCollection = this.afs.collection<Mensaje>('chats', ref => ref.orderBy('fecha', 'desc')
+                                                                            .limit(10));
     return this.itemsCollection.valueChanges()
     .pipe(map(mensajes => { 
       console.log(mensajes);
-
-      this.chats = mensajes;
+      this.chats = [];
+      for (let mensaje of mensajes) {
+        this.chats.unshift(mensaje); //unshift en vez de push me pone los mensajes siempre en la 1a posicion del arreglo
+      }
     }))
   }
 
